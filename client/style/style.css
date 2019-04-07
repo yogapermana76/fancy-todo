@@ -1,0 +1,25 @@
+#bg-nav {
+  background-color: #DC7633;
+  box-shadow: 7px 7px 100px;
+  text-shadow: 10px 10px 25px black;
+  margin-bottom: 50px
+}
+/* navbar */
+
+.login-footer {
+  text-align: center;
+  color: #AEB6BF;
+  padding-top: 10px;
+}
+
+.register-footer {
+  text-align: center;
+  color: #AEB6BF;
+  padding: 10px 0
+}
+
+.sign-google {
+  margin-left: 188px;
+  padding: 30px 0
+}
+/* login modal */
