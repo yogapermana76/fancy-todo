@@ -33,7 +33,7 @@ class UserController {
               email,
               name
             })
-            req.headers.token = token
+            // req.headers.token = token ga perlu disini
           }
         }
       })
@@ -72,7 +72,7 @@ class UserController {
             name: payload.name,
             password: payload.password
         }, process.env.SECRET_KEY)
-        req.headers.token = token
+        // req.headers.token = token
         res.status(201).json({
           token,
           id,
@@ -95,13 +95,25 @@ class UserController {
             password: req.body.password
           })
         } else {
-          res.status(401).json({
-            message: 'email already exist'
+          return new Promise(resolve => {
+            resolve({
+              status: 401,
+              error: true,
+              message: 'email already exist'
+            })
           })
+
         }
       })
       .then(user => {
-        res.status(201).json(user)
+        if (user.error) {
+            res.status(401).json({
+            message: 'email already exist'
+          })
+        } else {
+          console.log('asd')
+          res.status(201).json(user)
+        }
       })
       .catch(err => {
         res.status(500).json(err)

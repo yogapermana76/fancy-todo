@@ -5,7 +5,7 @@ const port = 3000
 const routes = require('./routes/index')
 const cors = require('cors')
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/fancy-todo', { useNewUrlParser: true });
+mongoose.connect(`mongodb+srv://${process.env.USERNAME_DB}:${process.env.PASSWORD_DB}@cluster0-y1tro.mongodb.net/fancy-todo?retryWrites=true`, { useNewUrlParser: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

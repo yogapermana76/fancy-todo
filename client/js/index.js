@@ -1,3 +1,5 @@
+const baseUrl = `http://localhost:3000`
+
 function register() {
   event.preventDefault()
 
@@ -6,7 +8,7 @@ function register() {
     password = $('#reg-password').val()
 
   $.ajax({
-    url: 'http://localhost:3000/users',
+    url: `${baseUrl}/users`,
     method: 'POST',
     data: {
       name,
@@ -38,7 +40,7 @@ function login() {
   const email = $('#login-email').val(),
     password = $('#login-password').val()
   $.ajax({
-    url: 'http://localhost:3000/users/login',
+    url: `${baseUrl}/users/login`,
     method: 'POST',
     data: {
       email,
@@ -88,13 +90,22 @@ function onSignIn(googleUser) {
   const id_token = googleUser.getAuthResponse().id_token;
 
   $.ajax({
-    url: 'http://localhost:3000/users/login-google',
+    url: `${baseUrl}/users/login-google`,
     method: 'POST',
     data: {
       id_token
     }
   })
     .done(function (response) {
+      if(!localStorage.getItem('token')) {
+        swal({
+          title: "Success Login!",
+          text: "You clicked the button!",
+          icon: "success",
+          button: "close!",
+        });
+        $('#login-modal').modal('toggle')
+      }
       localStorage.setItem('token', response.token)
       localStorage.setItem('id', response.id)
       localStorage.setItem('login', 'google')
@@ -107,13 +118,6 @@ function onSignIn(googleUser) {
 
       successLogin()
       getAllTodo()
-      swal({
-        title: "Success Login!",
-        text: "You clicked the button!",
-        icon: "success",
-        button: "close!",
-      });
-      $('#login-modal').modal('toggle')
     })
     .fail(function (jqXHR, textSatus) {
       console.log('request failed', textSatus)
@@ -141,7 +145,7 @@ function addTodo() {
     description = $('#add-desc').val()
 
   $.ajax({
-    url: `http://localhost:3000/todos`,
+    url: `${baseUrl}/todos`,
     method: 'POST',
     data: {
       name,
@@ -189,7 +193,7 @@ function addTodo() {
 
 function getAllTodo() {
   $.ajax({
-    url: `http://localhost:3000/todos/${localStorage.getItem('id')}`,
+    url: `${baseUrl}/todos/${localStorage.getItem('id')}`,
     method: 'GET',
     headers: {
       token: localStorage.getItem('token')
@@ -240,7 +244,7 @@ function getAllTodo() {
 
 function deleteTodo(param) {
   $.ajax({
-    url: `http://localhost:3000/todos/${param}/delete`,
+    url: `${baseUrl}/todos/${param}/delete`,
     method: 'DELETE',
     headers: {
       token: localStorage.getItem('token')
@@ -262,7 +266,7 @@ function deleteTodo(param) {
 
 function updateTodo(id) {
   $.ajax({
-    url: `http://localhost:3000/todos/${id}/update`,
+    url: `${baseUrl}/todos/${id}/update`,
     method: 'PUT',
     headers: {
       token: localStorage.getItem('token')
@@ -289,6 +293,16 @@ function successLogout() {
   $('#user').hide()
   $('#form-add-todo').hide()
   $('#list-todo').hide()
+}
+
+function successLoginGoogle() {
+  $('#login-modal').hide()
+  $('#login').hide()
+  $('#register').hide()
+  $('#logout').show()
+  $('#myTodo').show()
+  $('#form-add-todo').show()
+  $('#list-todo').show()
 }
 
 function successLogin() {
