@@ -159,7 +159,7 @@ function addTodo() {
   })
     .done(function (response) {
       $('#card-todo').prepend(`
-        <div class="col-md-4 mr-3 ml-3 card text-white ${color[i % color.length]} mb-3" style="max-width: 15rem;" data-aos="zoom-in-up">
+        <div class="col-md-4 mr-3 ml-3 card text-white bg-light mb-3" style="max-width: 15rem;" data-aos="zoom-in-up">
           <div class="card-header">${response.name}
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="delete-todo">
               <span aria-hidden="true" onclick="deleteTodo('${response._id}')">&times;</span>
